@@ -1,0 +1,3 @@
+init ax
+jmp 10
+halt

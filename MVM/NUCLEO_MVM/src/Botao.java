@@ -1,18 +1,23 @@
 
+import java.awt.FileDialog;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import static jdk.nashorn.internal.objects.ArrayBufferView.buffer;
 
 public class Botao extends javax.swing.JFrame {
 
@@ -154,8 +159,6 @@ public class Botao extends javax.swing.JFrame {
 
         jbExecutar.setText("Executar");
         jbExecutar.setToolTipText("");
-        jbExecutar.setMaximumSize(new java.awt.Dimension(75, 23));
-        jbExecutar.setMinimumSize(new java.awt.Dimension(75, 23));
         jbExecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbExecutarActionPerformed(evt);
@@ -172,7 +175,7 @@ public class Botao extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbExecutar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbExecutar)
                 .addGap(0, 311, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -243,16 +246,36 @@ public class Botao extends javax.swing.JFrame {
     }//GEN-LAST:event_jbCarregarActionPerformed
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        FileDialog Fsalvar = new FileDialog(this, "Salvar Arquivo", FileDialog.SAVE);
+        Fsalvar.setVisible(true);
 
-        try {
-            File f = new File("C:\\Users\\Rodrigo\\Desktop\\teste.txt");
-            PrintWriter out = new PrintWriter(new FileOutputStream(f));
-            out.println(textarea.getText());
-            out.flush();
-            out.close();
-        } catch (IOException exc) {
-            JOptionPane.showMessageDialog(this, "Não foi possível salvar a alteração!");
+        if (Fsalvar.getFile() == null) {
+            return;
         }
+        // path // caminho para pasta e nome do arquivo
+        String nome_do_arquivo = Fsalvar.getDirectory() + Fsalvar.getFile();
+        
+        try {
+            FileWriter out = new FileWriter(nome_do_arquivo);
+            out.write(textarea.getText());
+            JOptionPane.showMessageDialog(this, "Arquivo salvo com sucesso!");
+            out.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Nao foi possível salvar!", " Erro!", JOptionPane.ERROR_MESSAGE);;
+        }
+
+//        O código abaixo também funciona
+//        String newLine = System.getProperty("line.separator");
+//        try {
+//            File f = new File(nome_do_arquivo);
+//            PrintWriter out = new PrintWriter(new FileOutputStream(f));
+//            out.append(textarea.getText());
+//            JOptionPane.showMessageDialog(this, "Arquivo salvo com sucesso!");
+//            out.flush();
+//            out.close();
+//        } catch (IOException exc) {
+//            JOptionPane.showMessageDialog(this, "Não foi possível salvar a alteração!");
+//        }
 
     }//GEN-LAST:event_jbSalvarActionPerformed
 
